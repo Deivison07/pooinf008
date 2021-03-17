@@ -57,18 +57,18 @@ public class Cor {
         return cor2.red == getRed() && cor2.green == getGreen() && cor2.blue == getBlue();
     }
     
-    public void clarearCor (float p) {
-        int percentualClarear = (int) p * 100 + 100;
-        this.setRed(this.getRed() * percentualClarear / 100);
-        this.setGreen(this.getGreen() * percentualClarear / 100);
-        this.setBlue(this.getBlue() * percentualClarear / 100);
+    public void clarear(double percentual) {
+        this.modificar(1 + percentual);
     }
 
-    public void escurecerCor (float p) {
-        int percentualEscurecer = ((int) p * 100 - 100) * -1;
-        this.setRed(this.getRed() * percentualEscurecer / 100);
-        this.setGreen(this.getGreen() * percentualEscurecer / 100);
-        this.setBlue(this.getBlue() * percentualEscurecer / 100);
+    public void escurecer(double percentual) {
+        this.modificar(1 - percentual);
+    }
+    
+    private void modificar(double percentual) {
+        this.setRed((int) (this.getRed() * percentual));
+        this.setGreen((int) (this.getGreen() * percentual));
+        this.setBlue((int) (this.getBlue() * percentual));
     }
 
     public Cor novaCorIgual() {
