@@ -63,8 +63,7 @@ public class Cor {
     }
 
     public Cor novaCorIgual (){
-        Cor corNova = new Cor(this.red, this.green, this.blue);
-        return corNova;
+        return new Cor(this.red, this.green, this.blue);
     }
 }
 
