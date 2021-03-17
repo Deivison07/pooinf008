@@ -16,15 +16,15 @@ public class Cor {
         return valor < VALOR_MINIMO ? VALOR_MINIMO : valor > VALOR_MAXIMO ? VALOR_MAXIMO : valor;
     }
 
-    public void setRed(int red) {
+    private void setRed(int red) {
         this.red = obterValorValido(red);
     }
 
-    public void setGreen(int green) {
+    private void setGreen(int green) {
         this.green = obterValorValido(green);
     }
 
-    public void setBlue(int blue) {
+    private void setBlue(int blue) {
         this.blue = obterValorValido(blue);
     }
     
@@ -64,5 +64,23 @@ public class Cor {
 
     public Cor novaCorIgual() {
         return new Cor(this.getRed(), this.getGreen(), this.getBlue());
+    }
+    
+    public String toString() {
+        return "#" + this.obterHexa(this.getRed()) + this.obterHexa(this.getGreen()) + this.obterHexa(this.getBlue());
+    }
+    
+    private String obterHexa(int valor) {
+        final char caracteresHexa[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        String resultado = new String();
+        final int CONSTANTE_HEXA = 16;
+        
+        while (valor > 0) {
+            int resto = valor % CONSTANTE_HEXA;
+            valor = valor / CONSTANTE_HEXA;
+            resultado = caracteresHexa[resto] + resultado;
+        }
+        
+        return resultado;
     }
 }
