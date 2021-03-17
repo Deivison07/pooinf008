@@ -27,10 +27,6 @@ public class Cor {
     public void setBlue(int blue) {
         this.blue = validarValorDaCor(blue) ? blue : VALOR_MINIMO;
     }
-
-    private int setLuminosidade(){
-        return (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
-    }
     
     public int getRed() {
         return this.red;
@@ -45,8 +41,7 @@ public class Cor {
     }
     
     public int getLuminosidade(){
-        setLuminosidade();
-        return this.luminosidade;
+        return (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
     }
 }
 
