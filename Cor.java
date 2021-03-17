@@ -61,5 +61,10 @@ public class Cor {
         this.green =  validarValorDaCor(this.green * percentualclarear/100) ? this.green * percentualclarear/100 : VALOR_MINIMO ;
         this.blue =  validarValorDaCor(this.blue * percentualclarear/100) ? this.blue * percentualclarear/100 : VALOR_MINIMO ;
     }
+
+    public Cor novaCorIgual (){
+        Cor corNova = new Cor(this.red, this.green, this.blue);
+        return corNova;
+    }
 }
 
