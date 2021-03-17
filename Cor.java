@@ -11,6 +11,15 @@ public class Cor {
         setGreen(green);
         setBlue(blue);
     }
+    this(){
+    	Cor(0,0,0);
+    }
+
+    this(Cor instancia){
+    	Cor(instancia.getRed(), instancia.getGreen(), instancia.getBlue());
+    }
+
+
 
     private int obterValorValido(int valor) {
         return valor < VALOR_MINIMO ? VALOR_MINIMO : valor > VALOR_MAXIMO ? VALOR_MAXIMO : valor;
