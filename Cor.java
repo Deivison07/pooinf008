@@ -75,11 +75,11 @@ public class Cor {
         String resultado = new String();
         final int CONSTANTE_HEXA = 16;
         
-        while (valor > 0) {
+        do {
             int resto = valor % CONSTANTE_HEXA;
             valor = valor / CONSTANTE_HEXA;
             resultado = caracteresHexa[resto] + resultado;
-        }
+        } while (valor > 0);
         
         return resultado;
     }
