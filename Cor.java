@@ -43,5 +43,11 @@ public class Cor {
     public int getLuminosidade(){
         return (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
     }
+
+    public boolean verificaIgualdade (Cor cor2) {
+        return cor2.red == getRed() && cor2.green == getGreen() && cor2.blue == getBlue();
+    }
+
+    
 }
 
