@@ -47,7 +47,19 @@ public class Cor {
     public boolean verificaIgualdade (Cor cor2) {
         return cor2.red == getRed() && cor2.green == getGreen() && cor2.blue == getBlue();
     }
-
     
+    public void clarearCor (float p) {
+        int percentualclarear = (int) p * 100 + 100;
+        this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;
+        this.green =  validarValorDaCor(this.green * percentualclarear/100) ? this.green * percentualclarear/100 : VALOR_MINIMO ;
+        this.blue =  validarValorDaCor(this.blue * percentualclarear/100) ? this.blue * percentualclarear/100 : VALOR_MINIMO ;
+    }
+
+    public void escurecerCor (float p) {
+        int percentualclarear = ((int) p * 100 - 100) * -1;
+        this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;
+        this.green =  validarValorDaCor(this.green * percentualclarear/100) ? this.green * percentualclarear/100 : VALOR_MINIMO ;
+        this.blue =  validarValorDaCor(this.blue * percentualclarear/100) ? this.blue * percentualclarear/100 : VALOR_MINIMO ;
+    }
 }
 
