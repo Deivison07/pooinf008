@@ -16,6 +16,15 @@ public class Cor {
         return valor >= VALOR_MINIMO && valor <= VALOR_MAXIMO;
     }
 
+    //Sugestão para melhorar metódo de validação de cor, já retornando o valor final, 
+        //limpando as classes setRed e demais só chamando apenas "this.red = validarValorDaCor(int red)",
+        //deixando a parte " ? red : VALOR_MINIMO" dentro do próprio método validarValorDaCor2(int valor).
+        // EX: "this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;""
+        // seria substituído por "validarValorDaCor(this.red * percentualclarear/100);"
+    private int validarValorDaCor2(int valor){
+        return (valor >= VALOR_MINIMO && valor <= VALOR_MAXIMO) ? valor : VALOR_MINIMO ;
+    }
+
     public void setRed(int red) {
         this.red = validarValorDaCor(red) ? red : VALOR_MINIMO;
     }
