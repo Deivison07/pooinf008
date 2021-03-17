@@ -12,29 +12,20 @@ public class Cor {
         setBlue(blue);
     }
 
-    private boolean validarValorDaCor(int valor) {
-        return valor >= VALOR_MINIMO && valor <= VALOR_MAXIMO;
-    }
-
-    //Sugestão para melhorar metódo de validação de cor, já retornando o valor final, 
-        //limpando as classes setRed e demais só chamando apenas "this.red = validarValorDaCor(int red)",
-        //deixando a parte " ? red : VALOR_MINIMO" dentro do próprio método validarValorDaCor2(int valor).
-        // EX: "this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;""
-        // seria substituído por "validarValorDaCor(this.red * percentualclarear/100);"
-    private int validarValorDaCor2(int valor){
-        return (valor >= VALOR_MINIMO && valor <= VALOR_MAXIMO) ? valor : VALOR_MINIMO ;
+    private int obterValorValido(int valor) {
+        return valor < VALOR_MINIMO ? VALOR_MINIMO : valor > VALOR_MAXIMO ? VALOR_MAXIMO : valor;
     }
 
     public void setRed(int red) {
-        this.red = validarValorDaCor(red) ? red : VALOR_MINIMO;
+        this.red = obterValorValido(red);
     }
 
     public void setGreen(int green) {
-        this.green = validarValorDaCor(green) ? green : VALOR_MINIMO;
+        this.green = obterValorValido(green);
     }
 
     public void setBlue(int blue) {
-        this.blue = validarValorDaCor(blue) ? blue : VALOR_MINIMO;
+        this.blue = obterValorValido(blue);
     }
     
     public int getRed() {
@@ -49,8 +40,8 @@ public class Cor {
         return this.blue;
     }
     
-    public int getLuminosidade(){
-        return (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
+    public int getLuminosidade() {
+        return (int) (getRed() * 0.3 + getGreen() * 0.59 + getBlue() * 0.11);
     }
 
     public boolean verificaIgualdade (Cor cor2) {
@@ -58,21 +49,20 @@ public class Cor {
     }
     
     public void clarearCor (float p) {
-        int percentualclarear = (int) p * 100 + 100;
-        this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;
-        this.green =  validarValorDaCor(this.green * percentualclarear/100) ? this.green * percentualclarear/100 : VALOR_MINIMO ;
-        this.blue =  validarValorDaCor(this.blue * percentualclarear/100) ? this.blue * percentualclarear/100 : VALOR_MINIMO ;
+        int percentualClarear = (int) p * 100 + 100;
+        this.setRed(this.getRed() * percentualClarear / 100);
+        this.setGreen(this.getGreen() * percentualClarear / 100);
+        this.setBlue(this.getBlue() * percentualClarear / 100);
     }
 
     public void escurecerCor (float p) {
-        int percentualclarear = ((int) p * 100 - 100) * -1;
-        this.red =  validarValorDaCor(this.red * percentualclarear/100) ? this.red * percentualclarear/100 : VALOR_MINIMO ;
-        this.green =  validarValorDaCor(this.green * percentualclarear/100) ? this.green * percentualclarear/100 : VALOR_MINIMO ;
-        this.blue =  validarValorDaCor(this.blue * percentualclarear/100) ? this.blue * percentualclarear/100 : VALOR_MINIMO ;
+        int percentualEscurecer = ((int) p * 100 - 100) * -1;
+        this.setRed(this.getRed() * percentualEscurecer / 100);
+        this.setGreen(this.getGreen() * percentualEscurecer / 100);
+        this.setBlue(this.getBlue() * percentualEscurecer / 100);
     }
 
-    public Cor novaCorIgual (){
-        return new Cor(this.red, this.green, this.blue);
+    public Cor novaCorIgual() {
+        return new Cor(this.getRed(), this.getGreen(), this.getBlue());
     }
 }
-
