@@ -2,7 +2,6 @@ public class Cor {
     private int red;
     private int green;
     private int blue;
-    private int luminosidade;
 
     private final int VALOR_MINIMO = 0;
     private final int VALOR_MAXIMO = 255;
