@@ -30,7 +30,7 @@ public class Cor {
     }
 
     private void setLuminosidade(){
-    this.luminosidade = (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
+        this.luminosidade = (int) (getRed ( ) * 0.3 + getGreen ( ) * 0.59 + getBlue ( ) * 0.11);
     }
     
     public int getRed() {
