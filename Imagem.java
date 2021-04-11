@@ -1,5 +1,4 @@
 
-
 public class Imagem {
     
     private Cor cor[][];
@@ -7,19 +6,20 @@ public class Imagem {
     private int largura;
 
     //
+
+    public Imagem(int novaAltura, int novaLargura){
+    setAltura(novaAltura);
+    setLargura(novaLargura);
+    this.cor[novaAltura][novaLargura];
+    setAllWhite();
+    }
+
     public Imagem(){
         this.altura = 1;
         this.largura = 1;
         this.cor[this.altura][this.largura];
     }
 
-    public Imagem(int novaAltura, int novaLargura){
-        setAltura(novaAltura);
-        setLargura(novaLargura);
-        this.cor[novaAltura][novaLargura];
-        setAllWhite();
-    }
-    
     public void setAltura(int novaAltura){
         this.altura = novaAltura;
     }
