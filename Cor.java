@@ -84,8 +84,8 @@ public class Cor {
     }
 
     public gerarCinzaEquivalente(Cor instancia){
-        int cinza = instancia.getLuminosidade()
-        return new Cor(cinza,cinza,cinza)
+        int cinza = instancia.getLuminosidade();
+        return new Cor(cinza,cinza,cinza);
 
     }
     
