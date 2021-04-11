@@ -33,7 +33,7 @@ public class Imagem {
         for (int a = 0; a < this.altura; a++){
             for (int l = 0; l < this.largura; l++){
                 //Usar aqui o atributo static geral pra cor branca.
-                this.cor[altura][largura] = new Cor (255, 255, 255);
+                this.cor[altura][largura] = Cor.BRANCA;
             }
         }
         
