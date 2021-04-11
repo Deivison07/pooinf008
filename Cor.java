@@ -3,11 +3,11 @@ public class Cor {
     private int green;
     private int blue;
 
-    public static final Cor PRETA = new Cor(0,0,0);
-    public static final Cor BRANCA = new Cor(255,255,255);
-    public static final Cor RED = new Cor(255,0,0);
-    public static final Cor GREEN = new Cor(0,255,0);
-    public static final Cor BLUE = new Cor(0,0,255);
+    public static  Cor PRETA = new Cor(0,0,0);
+    public static  Cor BRANCA = new Cor(255,255,255);
+    public static  Cor RED = new Cor(255,0,0);
+    public static  Cor GREEN = new Cor(0,255,0);
+    public static  Cor BLUE = new Cor(0,0,255);
 
     private final int VALOR_MINIMO = 0;
     private final int VALOR_MAXIMO = 255;
