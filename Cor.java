@@ -3,11 +3,11 @@ public class Cor {
     private int green;
     private int blue;
 
-    public static  Cor PRETA = new Cor(0,0,0);
-    public static  Cor BRANCA = new Cor(255,255,255);
-    public static  Cor RED = new Cor(255,0,0);
-    public static  Cor GREEN = new Cor(0,255,0);
-    public static  Cor BLUE = new Cor(0,0,255);
+    public static Cor PRETA = new Cor(0, 0, 0);
+    public static Cor BRANCA = new Cor(255, 255, 255);
+    public static Cor RED = new Cor(255, 0, 0);
+    public static Cor GREEN = new Cor(0, 255, 0);
+    public static Cor BLUE = new Cor(0, 0, 255);
 
     private final int VALOR_MINIMO = 0;
     private final int VALOR_MAXIMO = 255;
@@ -17,8 +17,9 @@ public class Cor {
         setGreen(green);
         setBlue(blue);
     }
+
     public Cor(){
-    	this(0,0,0);
+    	this(Cor.VALOR_MINIMO, Cor.VALOR_MINIMO, Cor.VALOR_MINIMO);
     }
 
     public Cor(Cor instancia){
@@ -54,7 +55,7 @@ public class Cor {
     }
     
     public int getLuminosidade() {
-        return (int) (getRed() * 0.3 + getGreen() * 0.59 + getBlue() * 0.11);
+        return Math.round((float) (getRed() * 0.3 + getGreen() * 0.59 + getBlue() * 0.11));
     }
 
     public boolean verificaIgualdade (Cor cor2) {
@@ -82,12 +83,6 @@ public class Cor {
     public String toString() {
         return "#" + this.obterHexa(this.getRed()) + this.obterHexa(this.getGreen()) + this.obterHexa(this.getBlue());
     }
-
-    public gerarCinzaEquivalente(Cor instancia){
-        int cinza = instancia.getLuminosidade();
-        return new Cor(cinza,cinza,cinza);
-
-    }
     
     private String obterHexa(int valor) {
         final char caracteresHexa[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -101,5 +96,10 @@ public class Cor {
         } while (valor > 0);
         
         return resultado;
+    }
+
+    public gerarCinzaEquivalente(){
+        int luminosidade = this.getLuminosidade();
+        return new Cor(luminosidade, luminosidade, luminosidade);
     }
 }
