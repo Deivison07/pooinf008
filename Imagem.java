@@ -4,12 +4,6 @@ public class Imagem {
     private int largura;
     
     private final int VALOR_MINIMO = 1;
-    
-    public Imagem(Cor pixels[][]){
-        this.pixels = pixels;
-        largura = pixels.length;
-        altura = pixels[0].length;
-    }
 
     public Imagem(int novaAltura, int novaLargura){
         setLargura(novaLargura);
@@ -28,11 +22,17 @@ public class Imagem {
         return validarValor(valor) ? valor : VALOR_MINIMO;
     }
     
-    public void setAltura(int novaAltura){
+    /*
+    @all: alterei a visibilidade dos setAltura e setLargura pra private
+    pq nao faz muito sentido alterar o tamanho depois que criar a imagem
+    e como a especificacao nao fala nada sobre esses metodos, em teoria a
+    gente pode fazer como achar melhor, o que acham?
+    */
+    private void setAltura(int novaAltura){
         this.altura = obterValorValido(novaAltura);
     }
 
-    public void setLargura(int novaLargura){
+    private void setLargura(int novaLargura){
         this.largura = obterValorValido(novaLargura);
     }
     
@@ -45,8 +45,8 @@ public class Imagem {
     }
     
     public Cor getPixel(int aPos, int lPos) {
-        if ((aPos < 0 || aPos > this.getAltura()) ||
-            (lPos < 0 || lPos > this.getLargura())){
+        if ((aPos < 0 || aPos >= this.getAltura()) ||
+            (lPos < 0 || lPos >= this.getLargura())){
             return null;
         }
         
@@ -54,8 +54,8 @@ public class Imagem {
     }
     
     public void setPixel(int aPos, int lPos, Cor pixel){
-        if ((aPos < 0 || aPos > this.getAltura()) ||
-            (lPos < 0 || lPos > this.getLargura())){
+        if ((aPos < 0 || aPos >= this.getAltura()) ||
+            (lPos < 0 || lPos >= this.getLargura())){
             return;
         }
         
@@ -65,7 +65,17 @@ public class Imagem {
     public void setPixel(int aPos, int lPos, int vermelho, int verde, int azul){
         this.setPixel(aPos, lPos, new Cor(vermelho, verde, azul));
     }
-
+    
+    private void atualizarTamanho(){
+        this.setLargura(this.pixels[0].length);
+        this.setAltura(this.pixels.length);
+    }
+    
+    /*
+    @josemar: so traduzi o metodo mesmo, pq como estamos programando em pt, se
+    nao for uma sobrescrita de um metodo de Object (toString, clone, equals...) fica estranho em ingles.
+    se preferir em ingles pode mudar dps.
+    */
     private void limparImagem(){
         for (int a = 0; a < this.getAltura(); a++){
             for (int l = 0; l < this.getLargura(); l++){
@@ -96,21 +106,9 @@ public class Imagem {
         }
         
         this.pixels = novosPixels;
+        this.atualizarTamanho();
     }
     
-    /*
-    Esse metodo verifica se as imagens sao iguais em todas as rotacoes de img
-    
-    cada iteracao do while vai validar se as imagens tem o mesmo tamanho,
-    caso nao tenha vai rotacionar img ate que mesmoTamanho seja true
-    
-    apenas caso tenham o mesmo tamanho as imagens vao ser comparadas normamente numa repeticao
-    
-    ao final de 4 rotacoes, caso nao tenha caido na condicao true, as imagens sao diferentes em
-    todas as perspectivas
-    
-    um clone de img eh gerado para nao alterar o estado do objeto original
-    */
     public boolean equals(Imagem img){
         Imagem imgClone = img.clone();
         int rotacoes = 0;
@@ -118,7 +116,7 @@ public class Imagem {
         while(rotacoes <= 3){
             boolean mesmoTamanho = (imgClone.getAltura() == this.getAltura() && imgClone.getLargura() == this.getLargura());
             
-            if (mesmoTamanho && compararImagens(imgClone)){
+            if (mesmoTamanho && this.compararImagens(imgClone)){
                 return true;
             }
             
@@ -129,16 +127,10 @@ public class Imagem {
         return false;
     }
     
-    /*
-    metodo de suporte para o metodo equals que compara todos os pixel entre as imagens
-    */
     private boolean compararImagens(Imagem img){
         for (int a = 0; a < this.getAltura(); a++){
             for (int l = 0; l < this.getLargura(); l++){
-                Cor thisP = this.getPixel(a, l);
-                Cor imgP = img.getPixel(a, l);
-                
-                if (!this.getPixel(a, l).equals(img.getPixel(a, l))){
+                if (!this.getPixel(a, l).verificaIgualdade(img.getPixel(a, l))){
                     return false;
                 }
             }
@@ -151,7 +143,7 @@ public class Imagem {
         
         for (int a = 0; a < this.getAltura(); a++){
             for (int l = 0; l < this.getLargura(); l++){
-                Cor corCinza = this.getPixel(a, l).obterCinza();
+                Cor corCinza = this.getPixel(a, l).gerarCinzaEquivalente();
                 imagemCinza.setPixel(a, l, corCinza);
             }
         }
@@ -159,19 +151,6 @@ public class Imagem {
         return imagemCinza;
     }
     
-    /*
-    Esse metodo verifica se o fragmento (frag) esta contido em uma imagem (this)
-    
-    cada iteracao do while vai validar se frag eh menor ou igual a imagem (this),
-    caso nao seja vai rotacionar frag ate que suportaFragmento seja true
-    
-    apenas caso a condicao acima seja verdadeira as imagens vao ser comparadas
-    
-    ao final de 4 rotacoes, caso nao tenha caido na condicao true, a frag
-    nao eh fragmento de imagem (this) em todas as perspectivas
-    
-    um clone de frag eh gerado para nao alterar o estado do objeto original
-    */
     public boolean possuiComoFragmento(Imagem frag){
         Imagem fragClone = frag.clone();
         int rotacoes = 0;
@@ -179,7 +158,7 @@ public class Imagem {
         while(rotacoes <= 3){
             boolean suportaFragmento = (fragClone.getAltura() <= this.getAltura() && fragClone.getLargura() <= this.getLargura());
             
-            if (suportaFragmento && possui(fragClone)){
+            if (suportaFragmento && this.possui(fragClone)){
                 return true;
             }
             
@@ -190,30 +169,27 @@ public class Imagem {
         return false;
     }
     
-    /*
-    metodo de suporte para o metodo possuiComoFragmento que verifica se a imagem (this) tem como fragmento frag
-    
-    a ideia eh que o algoritmo percorra a imagem pai verificando se possui o fragmento
-    
-    a verificacao so vai ocorrer enquanto o fragmento couber na largura e na altura do ponto 0,0 da verificacao
-    
-    caso a verificacao no ponto x,y do pai falhar, o algoritmo vai continuar do onde parou, indo para a proxima linha/coluna
-    */
     private boolean possui(Imagem frag){
-        boolean igual = true;
         int aI, lI, aF, lF;
+        boolean igual;
         
         for (aI = 0; aI < this.getAltura(); aI++){
-            for (lI = 0; lI < this.getLargura() || !igual;){
+            boolean cabeNaAltura = frag.getAltura() <= (this.getAltura() - aI);
+                
+            if (!cabeNaAltura){
+                break;
+            }
+            
+            for (lI = 0; lI < this.getLargura(); lI++){
                 boolean cabeNaLargura = frag.getLargura() <= (this.getLargura() - lI);
                 
                 if (!cabeNaLargura){
                     break;
                 }
                 
-                for (aF = 0; aF < frag.getAltura() && igual; aF++){
+                for (aF = 0, igual = true; aF < frag.getAltura() && igual; aF++){
                     for (lF = 0; lF < frag.getLargura() && igual; lF++){
-                        igual = (this.getPixel(aF, lF).equals(frag.getPixel(aI + aF, lI + lF)));
+                        igual = this.getPixel(aI + aF, lI + lF).verificaIgualdade(frag.getPixel(aF, lF));
                     }
                 }
                 
@@ -221,13 +197,8 @@ public class Imagem {
                     return true;
                 }
             }
-            
-            boolean cabeNaAltura = frag.getAltura() <= (this.getAltura() - aI);
-                
-            if (!cabeNaAltura){
-                break;
-            }
         }
+
         return false;
     }
 }
