@@ -83,8 +83,14 @@ public class Cor {
         return "#" + this.obterHexa(this.getRed()) + this.obterHexa(this.getGreen()) + this.obterHexa(this.getBlue());
     }
 
-    public gerarCinzaEquivalente(Cor instancia){
+    public static Cor gerarCinzaEquivalente(Cor instancia){
         int cinza = instancia.getLuminosidade();
+        return new Cor(cinza,cinza,cinza);
+
+    }
+
+    public Cor gerarCinzaEquivalente(){
+        int cinza = this.getLuminosidade();
         return new Cor(cinza,cinza,cinza);
 
     }

@@ -32,10 +32,36 @@ public class Imagem {
 
         for (int a = 0; a < this.altura; a++){
             for (int l = 0; l < this.largura; l++){
-                //Usar aqui o atributo static geral pra cor branca.
-                this.cor[altura][largura] = Cor.BRANCA;
+                this.cor[a][l] = Cor.BRANCA;
             }
         }
         
+    }
+
+    private boolean validaPosicao(int posicaoX, int posicaoY){
+        if ((posicaoX >= 0) && (posicaoX<=this.altura) && (posicaoY >= 0) && (posicaoY<=this.largura){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+
+    public void modificaPixel(int posicaoX, int posicaoY, Cor instancia){
+
+        if(validaPosicao(int posicaoX, int posicaoY) == true){
+            this.cor[posicaoX][posicaoY] = new instancia;
+        }
+    }
+
+    public void modificaPixel(int posicaoX, int posicaoY, int red, int green, int blue){
+        
+        if(validaPosicao(int posicaoX, int posicaoY) == true){
+            this.cor[posicaoX][posicaoY].setRed(red);
+            this.cor[posicaoX][posicaoY].setGreen(green);
+            this.cor[posicaoX][posicaoY].setBlue(blue);
+        }
     }
 }
