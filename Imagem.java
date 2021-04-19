@@ -22,12 +22,6 @@ public class Imagem {
         return validarValor(valor) ? valor : VALOR_MINIMO;
     }
     
-    /*
-    @all: alterei a visibilidade dos setAltura e setLargura pra private
-    pq nao faz muito sentido alterar o tamanho depois que criar a imagem
-    e como a especificacao nao fala nada sobre esses metodos, em teoria a
-    gente pode fazer como achar melhor, o que acham?
-    */
     private void setAltura(int novaAltura){
         this.altura = obterValorValido(novaAltura);
     }
@@ -71,11 +65,6 @@ public class Imagem {
         this.setAltura(this.pixels.length);
     }
     
-    /*
-    @josemar: so traduzi o metodo mesmo, pq como estamos programando em pt, se
-    nao for uma sobrescrita de um metodo de Object (toString, clone, equals...) fica estranho em ingles.
-    se preferir em ingles pode mudar dps.
-    */
     private void limparImagem(){
         for (int a = 0; a < this.getAltura(); a++){
             for (int l = 0; l < this.getLargura(); l++){

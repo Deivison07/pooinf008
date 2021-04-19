@@ -3,21 +3,12 @@ public class Cor {
     private int green;
     private int blue;
 
-    /*
-    @deivison: vi que vc mudou de 'static final' para 'static' apenas, isso permitiria que
-    alguem altere o valor das propriedades tipo Cor.PRETA = Cor.BRANCA.
-    nao acha melhor deixar o final ja que eh um valor imutavel?
-    */
     public static Cor PRETA = new Cor(0, 0, 0);
     public static Cor BRANCA = new Cor(255, 255, 255);
     public static Cor RED = new Cor(255, 0, 0);
     public static Cor GREEN = new Cor(0, 255, 0);
     public static Cor BLUE = new Cor(0, 0, 255);
 
-    /*
-    @all: aqui eu mudei para 'public static final' ao inves de 'private final'
-    pq acho que essas poderiam ser propriedades de classe de consulta geral, o que acham?
-    */
     public static final int VALOR_MINIMO = 0;
     public static final int VALOR_MAXIMO = 255;
     
@@ -89,10 +80,6 @@ public class Cor {
         return new Cor(this.getRed(), this.getGreen(), this.getBlue());
     }
     
-    /*
-    @deivison: aqui vc tinha colocado o metodo pra receber uma instancia de Cor
-    mas se o metodo ja está na classe cor pq receber outra instancia?
-    */
     public Cor gerarCinzaEquivalente(){
         int luminosidade = this.getLuminosidade();
         return new Cor(luminosidade, luminosidade, luminosidade);
