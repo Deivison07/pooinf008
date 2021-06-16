@@ -103,7 +103,7 @@ public class TestaImagem
         
         for (int a = 0; a < imgCinza.getAltura() && tudoCinza; a++){
             for (int l = 0; l < imgCinza.getLargura() && tudoCinza; l++){
-                tudoCinza = imgCinza.getPixel(a, l).verificaIgualdade(pixels2[a][l]);
+                tudoCinza = imgCinza.getPixel(a, l).equals(pixels2[a][l]);
             }
         }
         

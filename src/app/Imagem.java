@@ -2,42 +2,19 @@ package app;
 
 public class Imagem {
     private Cor pixels[][];
-    private int altura;
-    private int largura;
     
-    private final int VALOR_MINIMO = 1;
-
     public Imagem(int novaAltura, int novaLargura){
-        setLargura(novaLargura);
-        setAltura(novaAltura);
-        
         this.pixels = new Cor[novaAltura][novaLargura];
         
         limparImagem();
     }
     
-    private boolean validarValor(int valor){
-        return valor >= VALOR_MINIMO;
-    }
-    
-    private int obterValorValido(int valor){
-        return validarValor(valor) ? valor : VALOR_MINIMO;
-    }
-    
-    private void setAltura(int novaAltura){
-        this.altura = obterValorValido(novaAltura);
-    }
-
-    private void setLargura(int novaLargura){
-        this.largura = obterValorValido(novaLargura);
-    }
-    
     public int getAltura(){
-        return this.altura;
+        return this.pixels.length;
     }
 
     public int getLargura(){
-        return this.largura;
+        return this.pixels[0].length;
     }
     
     public Cor getPixel(int aPos, int lPos) {
@@ -62,42 +39,36 @@ public class Imagem {
         this.setPixel(aPos, lPos, new Cor(vermelho, verde, azul));
     }
     
-    private void atualizarTamanho(){
-        this.setLargura(this.pixels[0].length);
-        this.setAltura(this.pixels.length);
-    }
-    
     private void limparImagem(){
-        for (int a = 0; a < this.getAltura(); a++){
-            for (int l = 0; l < this.getLargura(); l++){
-                this.pixels[a][l] = Cor.BRANCA;
+        for (int altura = 0; altura < this.getAltura(); altura++){
+            for (int largura = 0; largura < this.getLargura(); largura++){
+                this.pixels[altura][largura] = Cor.BRANCA;
             }
         }
     }
     
     public Imagem clone(){
-        Imagem clone = new Imagem(this.getAltura(), this.getLargura());
+        Imagem iClone = new Imagem(this.getAltura(), this.getLargura());
         
-        for (int a = 0; a < this.getAltura(); a++){
-            for (int l = 0; l < this.getLargura(); l++){
-                clone.setPixel(a, l, this.getPixel(a, l));
+        for (int altura = 0; altura < this.getAltura(); altura++){
+            for (int largura = 0; largura < this.getLargura(); largura++){
+            	iClone.setPixel(altura, largura, this.getPixel(altura, largura).clone());
             }
         }
         
-        return clone;
+        return iClone;
     }
     
     public void rotacionarParaDireita(){
         Cor novosPixels[][] = new Cor[this.getLargura()][this.getAltura()];
         
-        for (int a = 0, nL = this.getAltura() - 1; a < this.getAltura(); a++, nL--){
-            for (int l = 0, nA = 0; l < this.getLargura(); l++, nA++){
-                novosPixels[nA][nL] = this.pixels[a][l];
+        for (int altura = 0, rotLargura = this.getAltura() - 1; altura < this.getAltura(); altura++, rotLargura--){
+            for (int largura = 0, rotAltura = 0; largura < this.getLargura(); largura++, rotAltura++){
+                novosPixels[rotAltura][rotLargura] = this.pixels[altura][largura];
             }
         }
         
         this.pixels = novosPixels;
-        this.atualizarTamanho();
     }
     
     public boolean equals(Imagem img){
@@ -119,9 +90,9 @@ public class Imagem {
     }
     
     private boolean compararImagens(Imagem img){
-        for (int a = 0; a < this.getAltura(); a++){
-            for (int l = 0; l < this.getLargura(); l++){
-                if (!this.getPixel(a, l).verificaIgualdade(img.getPixel(a, l))){
+        for (int altura = 0; altura < this.getAltura(); altura++){
+            for (int largura = 0; largura < this.getLargura(); largura++){
+                if (!this.getPixel(altura, largura).equals(img.getPixel(altura, largura))){
                     return false;
                 }
             }
@@ -132,10 +103,10 @@ public class Imagem {
     public Imagem obterCinza(){
         Imagem imagemCinza = new Imagem(this.getAltura(), this.getLargura());
         
-        for (int a = 0; a < this.getAltura(); a++){
-            for (int l = 0; l < this.getLargura(); l++){
-                Cor corCinza = this.getPixel(a, l).gerarCinzaEquivalente();
-                imagemCinza.setPixel(a, l, corCinza);
+        for (int altura = 0; altura < this.getAltura(); altura++){
+            for (int largura = 0; largura < this.getLargura(); largura++){
+                Cor corCinza = this.getPixel(altura, largura).gerarCinzaEquivalente();
+                imagemCinza.setPixel(altura, largura, corCinza);
             }
         }
         
@@ -149,7 +120,7 @@ public class Imagem {
         while(rotacoes <= 3){
             boolean suportaFragmento = (fragClone.getAltura() <= this.getAltura() && fragClone.getLargura() <= this.getLargura());
             
-            if (suportaFragmento && this.possui(fragClone)){
+            if (suportaFragmento && this.fragmento(fragClone)){
                 return true;
             }
             
@@ -160,27 +131,30 @@ public class Imagem {
         return false;
     }
     
-    private boolean possui(Imagem frag){
-        int aI, lI, aF, lF;
+    private boolean fragmento(Imagem frag){
+        int imgAltura, imgLargura, fragAltura, fragLargura;
         boolean igual;
         
-        for (aI = 0; aI < this.getAltura(); aI++){
-            boolean cabeNaAltura = frag.getAltura() <= (this.getAltura() - aI);
+        for (imgAltura = 0; imgAltura < this.getAltura(); imgAltura++){
+            boolean cabeNaAltura = frag.getAltura() <= (this.getAltura() - imgAltura);
                 
             if (!cabeNaAltura){
                 break;
             }
             
-            for (lI = 0; lI < this.getLargura(); lI++){
-                boolean cabeNaLargura = frag.getLargura() <= (this.getLargura() - lI);
+            for (imgLargura = 0; imgLargura < this.getLargura(); imgLargura++){
+                boolean cabeNaLargura = frag.getLargura() <= (this.getLargura() - imgLargura);
                 
                 if (!cabeNaLargura){
                     break;
                 }
                 
-                for (aF = 0, igual = true; aF < frag.getAltura() && igual; aF++){
-                    for (lF = 0; lF < frag.getLargura() && igual; lF++){
-                        igual = this.getPixel(aI + aF, lI + lF).verificaIgualdade(frag.getPixel(aF, lF));
+                for (fragAltura = 0, igual = true; fragAltura < frag.getAltura() && igual; fragAltura++){
+                    for (fragLargura = 0; fragLargura < frag.getLargura() && igual; fragLargura++){
+                    	int imgLPos = imgLargura + fragLargura;
+                    	int imgAPos = imgAltura + fragAltura;
+                    	
+                        igual = this.getPixel(imgAPos, imgLPos).equals(frag.getPixel(fragAltura, fragLargura));
                     }
                 }
                 

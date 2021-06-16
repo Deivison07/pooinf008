@@ -33,15 +33,15 @@ public class Cor {
     }
 
     private void setRed(int red) {
-        this.red = obterValorValido(red);
+        this.red = this.obterValorValido(red);
     }
 
     private void setGreen(int green) {
-        this.green = obterValorValido(green);
+        this.green = this.obterValorValido(green);
     }
 
     private void setBlue(int blue) {
-        this.blue = obterValorValido(blue);
+        this.blue = this.obterValorValido(blue);
     }
     
     public int getRed() {
@@ -57,11 +57,11 @@ public class Cor {
     }
     
     public int getLuminosidade() {
-        return Math.round((float) (getRed() * 0.3 + getGreen() * 0.59 + getBlue() * 0.11));
+        return Math.round((float) (this.getRed() * 0.3 + this.getGreen() * 0.59 + this.getBlue() * 0.11));
     }
 
-    public boolean verificaIgualdade(Cor cor2) {
-        return cor2.red == getRed() && cor2.green == getGreen() && cor2.blue == getBlue();
+    public boolean equals(Cor cor2) {
+        return 	cor2.getRed() == this.getRed() && cor2.getGreen() == this.getGreen() && cor2.getBlue() == this.getBlue();
     }
     
     public void clarear(double percentual) {
@@ -78,8 +78,8 @@ public class Cor {
         this.setBlue((int) (this.getBlue() * percentual));
     }
 
-    public Cor novaCorIgual() {
-        return new Cor(this.getRed(), this.getGreen(), this.getBlue());
+    public Cor clone() {
+        return new Cor(this);
     }
     
     public Cor gerarCinzaEquivalente(){

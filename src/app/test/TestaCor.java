@@ -38,12 +38,12 @@ public class TestaCor
         cor1 = new Cor(1, 1, 1);
         cor2 = new Cor(1, 1, 1);
         
-        assertTrue(cor1.verificaIgualdade(cor2));
+        assertTrue(cor1.equals(cor2));
         
         cor1 = new Cor(1, 1, 1);
         cor2 = new Cor(1, 0, 1);
         
-        assertFalse(cor1.verificaIgualdade(cor2));
+        assertFalse(cor1.equals(cor2));
     }
     
     @Test
@@ -67,9 +67,9 @@ public class TestaCor
     public void TestaClonagem()
     {
         cor1 = new Cor(1, 1, 1);
-        clone = cor1.novaCorIgual();
+        clone = cor1.clone();
         
-        assertTrue(cor1.verificaIgualdade(clone));
+        assertTrue(cor1.equals(clone));
     }
     
     @Test
@@ -77,7 +77,7 @@ public class TestaCor
     {
         percentual = 0.1;
         cor1 = new Cor(37, 150, 190);
-        corClara = cor1.novaCorIgual();
+        corClara = cor1.clone();
         corClara.clarear(percentual);
         
         assertTrue(corClara.toString().equals("#3BA1C5"));
@@ -88,7 +88,7 @@ public class TestaCor
     {
         percentual = 0.1;
         cor1 = new Cor(37, 150, 190);
-        corEscura = cor1.novaCorIgual();
+        corEscura = cor1.clone();
         corEscura.escurecer(percentual);
         
         assertTrue(corEscura.toString().equals("#2187AB"));
