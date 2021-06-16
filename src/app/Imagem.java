@@ -1,3 +1,5 @@
+package app;
+
 public class Imagem {
     private Cor pixels[][];
     private int altura;

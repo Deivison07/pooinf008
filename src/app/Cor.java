@@ -1,3 +1,5 @@
+package app;
+
 public class Cor {
     private int red;
     private int green;
