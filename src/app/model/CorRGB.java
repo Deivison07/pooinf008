@@ -53,6 +53,10 @@ public class CorRGB extends Cor {
     public int getLuminosidade() {
         return (int) (this.getRed() * 0.3 + this.getGreen() * 0.59 + this.getBlue() * 0.11);
     }
+
+    public int getLuminosidade(double red, double green, double blue) {
+        return (int) (red * 0.3 + green * 0.59 + blue * 0.11);
+    }
     
     public CorRGB getCinzaEquivalente() {
         int luminosidade = this.getLuminosidade();
