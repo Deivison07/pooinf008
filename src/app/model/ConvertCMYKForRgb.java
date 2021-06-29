@@ -1,7 +1,7 @@
 package app.model;
 
 
-public class ConvertCMYKForRgb {
+public class ConvertCMYKForRgb implements ConversorCor {
 
     
     public Imagem getNovoMapa(int altura, int largura){
