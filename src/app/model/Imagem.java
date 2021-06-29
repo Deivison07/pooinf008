@@ -14,11 +14,15 @@ public class Imagem  {
     public int getLargura() {
         return this.pixels[0].length;
     }
+
+    public int getTamanho() {
+        return (getAltura() * getLargura() );
+    }
     
     private void validarPosicoes(int aPos, int lPos) throws IllegalArgumentException {
     	if ((aPos < 0 || aPos >= this.getAltura()) || (lPos < 0 || lPos >= this.getLargura())) {
-        	String mensagem = String.format("Argumentos de posição inválidos."
-        			+ " Foi passado [%d,%d] quando o máximo suportado é [%d,%d].",
+        	String mensagem = String.format("Argumentos de posiï¿½ï¿½o invï¿½lidos."
+        			+ " Foi passado [%d,%d] quando o mï¿½ximo suportado ï¿½ [%d,%d].",
         			aPos, lPos, this.getAltura(), this.getLargura());
         	
         	throw new IllegalArgumentException(mensagem);
@@ -35,7 +39,7 @@ public class Imagem  {
     	this.validarPosicoes(aPos, lPos);
         
         if (pixel == null) {
-        	throw new IllegalArgumentException("A cor não pode ser nula.");
+        	throw new IllegalArgumentException("A cor nï¿½o pode ser nula.");
         }
         
         this.pixels[aPos][lPos] = pixel;
