@@ -61,11 +61,6 @@ public class CorCMYK extends Cor {
     }
     
 	public int getLuminosidade() {
-		return (int) ((preto * 255) / 100);
+		return (int) ((this.getPreto() * 255) / 100);
 	}
-	
-	public CorCMYK getCinzaEquivalente() {
-        int luminosidade = this.getLuminosidade();
-        return new CorCMYK(luminosidade, luminosidade, luminosidade, luminosidade);
-    }
 }
