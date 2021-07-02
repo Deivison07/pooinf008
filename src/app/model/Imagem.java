@@ -7,6 +7,10 @@ public class Imagem  {
         this.pixels = new Cor[novaAltura][novaLargura];
     }
     
+    public Imagem(Cor pixels[][]) {
+        this.pixels = pixels;
+    }
+    
     public int getAltura() {
         return this.pixels.length;
     }
