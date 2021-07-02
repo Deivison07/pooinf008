@@ -44,28 +44,23 @@ public class CorCMYK extends Cor {
         this.preto = this.obterValorValido(preto);
     }
 
-    private int getCiano() {
+    public int getCiano() {
     	return this.ciano;
     }
 
-    private int getMagenta() {
+    public int getMagenta() {
     	return this.magenta;
     }
 
-    private int getAmarelo() {
+    public int getAmarelo() {
     	return this.amarelo;
     }
 
-    private int getPreto() {
+    public int getPreto() {
     	return this.preto;
     }
     
 	public int getLuminosidade() {
-		return (int) ((preto * 255) / 100);
+		return (int) ((this.getPreto() * 255) / 100);
 	}
-	
-	public CorCMYK getCinzaEquivalente() {
-        int luminosidade = this.getLuminosidade();
-        return new CorCMYK(luminosidade, luminosidade, luminosidade, luminosidade);
-    }
 }
