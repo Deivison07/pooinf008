@@ -50,7 +50,7 @@ public class Biblioteca {
 				mapasSimilares.add(mapa);
     	}
     	
-        return (Imagem[]) mapasSimilares.toArray();                                  
+        return mapasSimilares.toArray(new Imagem[mapasSimilares.size()]);                                  
     }
     
     private double obterSimilaridadeDoMapa(Imagem mapa, CorRGB cor, int lumMinima, int lumMaxima) throws IllegalArgumentException {

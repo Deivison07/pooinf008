@@ -13,12 +13,16 @@ public class ConversorCorCMYKEmRGB implements IConversorCor {
     	
         CorCMYK corCMYK = (CorCMYK) cor;
         
-        int red = 255 * (1 - corCMYK.getCiano()) / 100 * (1 - corCMYK.getPreto());
-        int green = 255 * (1 - corCMYK.getMagenta()) / 100 * (1 - corCMYK.getPreto());
-        int blue = 255 * (1 - corCMYK.getAmarelo()) / 100 * (1 - corCMYK.getPreto());
+        int red = converterValorCMYKParaRGB(corCMYK.getCiano(), corCMYK.getPreto());
+        int green = converterValorCMYKParaRGB(corCMYK.getMagenta(), corCMYK.getPreto());
+        int blue = converterValorCMYKParaRGB(corCMYK.getAmarelo(), corCMYK.getPreto());
 
         CorRGB corRgb = new CorRGB(red, green, blue);
 
         return corRgb;
     }
+    
+    private int converterValorCMYKParaRGB(int valor, int preto) {
+		return 255 * (1 - valor) / 100 * (1 - preto) / 100;
+	}
 }
