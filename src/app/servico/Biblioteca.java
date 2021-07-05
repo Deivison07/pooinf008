@@ -53,8 +53,8 @@ public class Biblioteca {
         return mapasSimilares.toArray(new Imagem[mapasSimilares.size()]);                                  
     }
     
-    private double obterSimilaridadeDoMapa(Imagem mapa, CorRGB cor, int lumMinima, int lumMaxima) throws IllegalArgumentException {
-    	int totalDePixels = mapa.getAltura() * mapa.getLargura();
+    private double obterSimilaridadeDoMapa(Imagem mapa, int lumMinima, int lumMaxima) throws IllegalArgumentException {
+    	int totalDePixels = mapa.getTamanho();
     	int qtdSimilar = 0;
     	
     	for (int altura = 0; altura < mapa.getAltura(); altura++){
