@@ -44,7 +44,7 @@ public class Biblioteca {
     	Collection<Imagem> mapasSimilares = new ArrayList<Imagem>();
     	
     	for (Imagem mapa : mapas) {
-    		double pctSimilar = this.obterSimilaridadeDoMapa(mapa, corBase, lumMinima, lumMaxima);
+    		double pctSimilar = this.obterSimilaridadeDoMapa(mapa, lumMinima, lumMaxima);
     		
 			if (pctSimilar >= pctMinimo)
 				mapasSimilares.add(mapa);
