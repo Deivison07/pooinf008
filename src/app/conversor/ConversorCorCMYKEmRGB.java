@@ -23,6 +23,6 @@ public class ConversorCorCMYKEmRGB implements IConversorCor {
     }
     
     private int converterValorCMYKParaRGB(int valor, int preto) {
-		return 255 * (1 - valor / 100) * (1 - preto / 100);
+    	return 255 * (1 - valor) / 100 * (1 - preto) / 100;
 	}
 }
