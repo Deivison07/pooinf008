@@ -1,5 +1,7 @@
 package app.model;
 
+import app.enums.CorEnum;
+
 public class CorCMYK extends Cor {
     private int ciano;
     private int magenta;
@@ -9,19 +11,20 @@ public class CorCMYK extends Cor {
     public static final int VALOR_MAXIMO = 100;
     public static final int VALOR_MINIMO = 0;
     
-    public CorCMYK(int ciano, int magenta, int amarelo, int preto) {
+    public CorCMYK(int id, int ciano, int magenta, int amarelo, int preto) {
+    	super(id, CorEnum.CMYK.getValor());
         this.setCiano(ciano);
         this.setMagenta(magenta);
         this.setAmarelo(amarelo);
         this.setPreto(preto);
     }
+    
+    public CorCMYK(int ciano, int magenta, int amarelo, int preto) {
+    	this(0, ciano, magenta, amarelo, preto);
+    }
 
     public CorCMYK() {
         this(CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO);
-    }
-
-    public CorCMYK(CorCMYK instancia) {
-        this(instancia.getCiano(), instancia.getMagenta(), instancia.getAmarelo(), instancia.getPreto());
     }
     
     private int obterValorValido(int valor) {

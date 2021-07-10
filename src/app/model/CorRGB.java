@@ -1,5 +1,7 @@
 package app.model;
 
+import app.enums.CorEnum;
+
 public class CorRGB extends Cor {
     private int red;
     private int green;
@@ -8,10 +10,15 @@ public class CorRGB extends Cor {
     public static final int VALOR_MAXIMO = 255;
     public static final int VALOR_MINIMO = 0;
     
-    public CorRGB(int red, int green, int blue) {
+    public CorRGB(int id, int red, int green, int blue) {
+    	super(id, CorEnum.RGB.getValor());
         this.setRed(red);
         this.setGreen(green);
         this.setBlue(blue);
+    }
+    
+    public CorRGB(int red, int green, int blue) {
+        this(0, red, green, blue);
     }
 
     public CorRGB() {

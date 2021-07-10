@@ -1,7 +1,7 @@
 package app.model;
 
-public class Imagem  {
-    private Cor pixels[][];
+public class Imagem implements java.io.Serializable {
+	private Cor pixels[][];
     
     public Imagem(int novaAltura, int novaLargura) {
         this.pixels = new Cor[novaAltura][novaLargura];

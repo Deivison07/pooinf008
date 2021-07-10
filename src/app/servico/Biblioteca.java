@@ -1,5 +1,7 @@
 package app.servico;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,9 +18,10 @@ public class Biblioteca {
     public Biblioteca() {
     	this.imagemDAO = new ImagemDAO();
     }
-
-    public void addMapa(Imagem mapa) {
-    	this.imagemDAO.Inserir(mapa);
+    
+    
+    public void salvarMapa(Imagem img) throws FileNotFoundException, IOException {
+    	this.imagemDAO.salvarImagemNoArquivo(img);
     }
     
     /**
@@ -40,7 +43,7 @@ public class Biblioteca {
     	int lumMinima = (int) (luminosidade * (1 - limiarSimilaridade));
     	int lumMaxima = (int) (luminosidade * (1 + limiarSimilaridade));
     	
-    	Collection<Imagem> mapas = this.imagemDAO.obterTodos();
+    	Collection<Imagem> mapas = new ArrayList<Imagem>();
     	Collection<Imagem> mapasSimilares = new ArrayList<Imagem>();
     	
     	for (Imagem mapa : mapas) {

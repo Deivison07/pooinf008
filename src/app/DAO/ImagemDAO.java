@@ -1,27 +1,52 @@
 package app.DAO;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import app.DAO.interfaces.IImagemDAO;
+import app.model.Cor;
+import app.model.CorCMYK;
+import app.model.CorRGB;
 import app.model.Imagem;
 
 public class ImagemDAO implements IImagemDAO {
 	
-	Collection<Imagem> imagens;
+	private static final String CAMINHO_PADRAO = "C:\\Users\\davi.sousa\\Documents\\imagem.bin"; 
 	
 	public ImagemDAO () {
-		this.imagens = new ArrayList<Imagem>();
+	}
+	
+	private String getCaminho(String caminho) {
+		return caminho != null && !caminho.trim().equals("") ? caminho : ImagemDAO.CAMINHO_PADRAO;
 	}
 	
 	@Override
-	public Collection<Imagem> obterTodos() {
-		return this.imagens;
+	public Imagem obterImagemNoArquivo(String caminho) throws IOException, ClassNotFoundException {
+		caminho = this.getCaminho(caminho);
+		
+		FileInputStream in = new FileInputStream(caminho);
+		ObjectInputStream ois = new ObjectInputStream(in);
+		
+		Imagem img = (Imagem) ois.readObject();
+		
+		ois.close();
+		in.close();
+		
+		return img;
 	}
-
+	
 	@Override
-	public void Inserir(Imagem img) {
-		this.imagens.add(img);
+	public void salvarImagemNoArquivo(Imagem img) throws IOException {
+		FileOutputStream out = new FileOutputStream(ImagemDAO.CAMINHO_PADRAO);
+		ObjectOutputStream oos = new ObjectOutputStream(out);
+		
+		oos.writeObject(img);
+		
+		oos.close();
+		out.close();
 	}
-
 }

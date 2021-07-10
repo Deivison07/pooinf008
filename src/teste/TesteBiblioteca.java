@@ -2,6 +2,8 @@ package teste;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
@@ -97,8 +99,12 @@ class TesteBiblioteca {
 	 * @param limiar percentual da faixa (para mais e para menos) que a luminosidade da nova cor deve estar em relacao a corBase
 	 * @param pctMinimo percentual minimo de pixel similares a corBase que a imagem deve ter
 	 * @return quantidade de imagens que estao dentro do pctMinimo
+	 * @throws IOException 
+	 * @throws FileNotFoundException
+	 * 
+	 * @deprecated funcao removida na nova avaliacao
 	 */
-	private int popularBiblioteca(CorRGB corBase, double limiar, double pctMinimo) {
+	private int popularBiblioteca(CorRGB corBase, double limiar, double pctMinimo) throws FileNotFoundException, IOException {
 		Random rdn = new Random();
 		int qtdImagens = rdn.nextInt(15);
 		int imagensNoPct = 0;
@@ -108,7 +114,7 @@ class TesteBiblioteca {
 			
 			Imagem mapa = obterNovaImagem(corBase, limiar, pctMinimo, noPctMinimo);
 			
-			biblioteca.addMapa(mapa);
+			biblioteca.salvarMapa(mapa);
 			
 			if (noPctMinimo) imagensNoPct++;
 		}
@@ -116,8 +122,11 @@ class TesteBiblioteca {
 		return imagensNoPct;
 	}
 	
-	@Test
-	void testarObterImagemPorLuminosidade() {
+	/**
+	 * Teste para obter array de imagens similares a uma determinada cor
+	 * @deprecated funcao removida na nova avaliacao
+	 */
+	void testarObterImagemPorLuminosidade() throws FileNotFoundException, IOException {
 		biblioteca = new Biblioteca();
 		
 		// valores de arumento para Biblioteca.getImagemPorLuminosidade
