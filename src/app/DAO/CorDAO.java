@@ -21,70 +21,7 @@ import app.enums.SimboloEnum;
 
 public class CorDAO implements ICorDAO {
 	
-	private static final String CAMPO_ID = "id";
-	
 	public CorDAO() {
-	}
-	
-	/**
-	 * Metodo para salvar uma cor no banco de dados
-	 * @param cor cor a ser salva
-	 * @throws SQLException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 */
-	public void salvar(Cor cor) throws SQLException, IllegalArgumentException, IllegalAccessException {
-		Statement sttmt = Conexao.getConexao().createStatement();
-		
-		String query = new String("INSERT INTO COR (%s) VALUES (%s)");
-		Map<String, Object> camposMapeados = this.mapearPropriedades(cor, false);
-		
-		String colunas = "";
-		String valores = "";
-		
-		for (Map.Entry<String, Object> campo : camposMapeados.entrySet()) {
-			if (campo.getValue() instanceof String)
-				valores += "'" + campo.getValue() + "',";
-			else
-				valores += campo.getValue() + ",";
-			
-			colunas += campo.getKey() + ",";
-		}
-		
-		colunas = colunas.substring(0, colunas.length() - 1);
-		valores = valores.substring(0, valores.length() - 1);
-		
-		query = String.format(query, colunas, valores);
-		
-		sttmt.executeUpdate(query);
-	}
-	
-	/**
-	 * Metodo para atualizar uma cor no banco de dados
-	 * @param cor cor a ser atualizada
-	 * @throws SQLException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 */
-	public void atualizar(Cor cor) throws SQLException, IllegalArgumentException, IllegalAccessException {
-		Statement sttmt = Conexao.getConexao().createStatement();
-		
-		String query = new String("UPDATE COR SET %s WHERE " + CorDAO.CAMPO_ID +  " = " + cor.getId());
-		Map<String, Object> camposMapeados = this.mapearPropriedades(cor, false);
-		
-		String valores = "";
-		for (Map.Entry<String, Object> campo : camposMapeados.entrySet()) {
-			if (campo.getValue() instanceof String)
-				valores += campo.getKey() + " = " + "'" + campo.getValue() + "',";
-			else
-				valores += campo.getKey() + " = " + campo.getValue() + ",";
-		}
-		
-		valores = valores.substring(0, valores.length() - 1);
-		
-		query = String.format(query, valores);
-		
-		sttmt.execute(query);
 	}
 	
 	/**
@@ -94,7 +31,8 @@ public class CorDAO implements ICorDAO {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public Collection<Cor> obterTodos() throws SQLException, IllegalArgumentException, IllegalAccessException {
+	@Override
+	public Collection<Cor> obterTodos() throws SQLException {
 		Statement sttmt = Conexao.getConexao().createStatement();
 		
 		ResultSet rSet = sttmt.executeQuery("SELECT * FROM COR");
@@ -113,7 +51,8 @@ public class CorDAO implements ICorDAO {
 	 * @throws SQLException
 	 * @throws NoSuchElementException
 	 */
-	public Cor obterPorId(int id) throws IllegalArgumentException, IllegalAccessException, SQLException, NoSuchElementException {
+	@Override
+	public Cor obterPorId(int id) throws SQLException, NoSuchElementException {
 		Statement sttmt = Conexao.getConexao().createStatement();
 		
 		ResultSet rSet = sttmt.executeQuery("SELECT * FROM COR WHERE id = " + id);
@@ -131,7 +70,8 @@ public class CorDAO implements ICorDAO {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public Collection<Cor> obterCoresPorSimbolo(int simbolo) throws SQLException, IllegalArgumentException, IllegalAccessException {
+	@Override
+	public Collection<Cor> obterCoresPorSimbolo(int simbolo) throws SQLException {
 		Statement sttmt = Conexao.getConexao().createStatement();
 		
 		ResultSet rSet = sttmt.executeQuery("SELECT * FROM COR WHERE simbolo = " + simbolo);
@@ -146,6 +86,7 @@ public class CorDAO implements ICorDAO {
 	 * @return Colecao com os nomes dos simbolos utilizados
 	 * @throws SQLException
 	 */
+	@Override
 	public Collection<String> obterSimbolosDasCores() throws SQLException {
 		Collection<String> simbolos = new ArrayList<String>();
 		
@@ -170,68 +111,35 @@ public class CorDAO implements ICorDAO {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	private Collection<Cor> mapearResultSetParaCores(ResultSet rSet) throws SQLException, IllegalArgumentException, IllegalAccessException {
+	private Collection<Cor> mapearResultSetParaCores(ResultSet rSet) throws SQLException {
 		Collection<Cor> cores = new ArrayList<Cor>();
 		
 		while(rSet.next()) {
+			Cor cor = null;
+			int id = rSet.getInt("id");
 			int tipo = rSet.getInt("tipo");
+			String nome = rSet.getString("nome");
+			int simbolo = rSet.getInt("simbolo");
 			
-			Cor cor = this.obterCorPorTipo(tipo);
-			Field[] campos = Util.obterPropriedades(cor.getClass());
-			
-			for (Field campo : campos) {
-				if (Modifier.isFinal(campo.getModifiers()))
-					continue;
-				
-				campo.setAccessible(true);
-				
-				campo.set(cor, rSet.getObject(campo.getName()));
+			if (tipo == CorEnum.RGB.getValor()) {
+				int red = rSet.getInt("red");
+				int green = rSet.getInt("green");
+				int blue = rSet.getInt("blue");
+
+				cor = new CorRGB(id, nome, simbolo, red, green, blue);
+			}
+			else if (tipo == CorEnum.CMYK.getValor()){
+				int ciano = rSet.getInt("ciano");
+				int magenta = rSet.getInt("magenta");
+				int amarelo = rSet.getInt("amarelo");
+				int preto = rSet.getInt("preto");
+
+				cor = new CorCMYK(id, nome, simbolo, ciano, magenta, amarelo, preto);
 			}
 			
 			cores.add(cor);
 		}
 		
 		return cores;
-	}
-	
-	/**
-	 * Metodo para obter uma instancia de uma cor dado seu tipo
-	 * @param tipo tipo de cor presente em CorEnum
-	 * @return instancia de cor ou null caso o tipo seja invalido
-	 */
-	private Cor obterCorPorTipo(int tipo) {
-		if (tipo == CorEnum.RGB.getValor())
-			return new CorRGB();
-		else if (tipo == CorEnum.CMYK.getValor())
-			return new CorCMYK();
-		
-		return null;
-	}
-	
-	/**
-	 * Metodo para mapear as propriedades de uma instância de classe Cor para um Mapa<campo, valor>.
-	 * O mapa gerado terá todas as propriedades da superclasse e da classe filha e seus valores,
-	 * exeto as que sao final.
-	 * @param cor a cor para gerar o mapa
-	 * @param comId booleano que indica se o metodo deve retornar a propriedade id no mapa
-	 * @return Mapa com todas as propriedades 
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
-	 */
-	private Map<String, Object> mapearPropriedades(Cor cor, boolean comId) throws IllegalArgumentException, IllegalAccessException {
-		Map<String, Object> propriedades = new HashMap<String, Object>();
-
-		Field[] campos = Util.obterPropriedades(cor.getClass());
-		
-		for (Field campo : campos) {
-			if ((Modifier.isFinal(campo.getModifiers())) || (campo.getName().equals(CorDAO.CAMPO_ID) && !comId))
-				continue;
-
-		    campo.setAccessible(true);
-		    
-		    propriedades.put(campo.getName(), campo.get(cor));
-		}
-		
-		return propriedades;
 	}
 }

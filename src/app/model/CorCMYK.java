@@ -11,16 +11,20 @@ public class CorCMYK extends Cor {
     public static final int VALOR_MAXIMO = 100;
     public static final int VALOR_MINIMO = 0;
     
-    public CorCMYK(int id, int ciano, int magenta, int amarelo, int preto) {
-    	super(id, CorEnum.CMYK.getValor());
+    public CorCMYK(int id, String nome, int simbolo, int ciano, int magenta, int amarelo, int preto) {
+        super(id, CorEnum.CMYK.getValor(), nome, simbolo);
         this.setCiano(ciano);
         this.setMagenta(magenta);
         this.setAmarelo(amarelo);
         this.setPreto(preto);
     }
     
-    public CorCMYK(int ciano, int magenta, int amarelo, int preto) {
-    	this(0, ciano, magenta, amarelo, preto);
+    public CorCMYK(String nome, int simbolo, int ciano, int magenta, int amarelo, int preto) {
+        this(0, nome, simbolo, ciano, magenta, amarelo, preto);
+    }
+    
+    public CorCMYK(int simbolo, int ciano, int magenta, int amarelo, int preto) {
+    	this("", simbolo, ciano, magenta, amarelo, preto);
     }
 
     public CorCMYK() {
