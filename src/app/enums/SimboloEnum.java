@@ -27,6 +27,15 @@ public enum SimboloEnum {
 		return this.nome;
 	}
 	
+	public static SimboloEnum obterPorNome(String nome) {
+		for (SimboloEnum simbolo : SimboloEnum.values()) {
+			if (simbolo.getNome().equals(nome))
+				return simbolo;
+		}
+		
+		throw new IllegalArgumentException("Simbolo solicitado nao encontrado.");
+	}
+	
 	public static SimboloEnum obterPorValor(int valor) {
 		for (SimboloEnum simbolo : SimboloEnum.values()) {
 			if (simbolo.getValor() == valor)
