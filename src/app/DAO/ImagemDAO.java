@@ -2,15 +2,11 @@ package app.DAO;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import app.DAO.interfaces.IImagemDAO;
-import app.model.Cor;
-import app.model.CorCMYK;
-import app.model.CorRGB;
 import app.model.Imagem;
 
 public class ImagemDAO implements IImagemDAO {

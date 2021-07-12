@@ -2,6 +2,7 @@ package app.model;
 
 import app.enums.CorEnum;
 
+@SuppressWarnings("serial")
 public class CorCMYK extends Cor {
     private int ciano;
     private int magenta;
@@ -27,8 +28,8 @@ public class CorCMYK extends Cor {
     	this("", simbolo, ciano, magenta, amarelo, preto);
     }
 
-    public CorCMYK() {
-        this(CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO);
+    public CorCMYK(int simbolo) {
+        this(simbolo, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO, CorCMYK.VALOR_MINIMO);
     }
     
     private int obterValorValido(int valor) {

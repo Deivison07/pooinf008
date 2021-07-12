@@ -2,6 +2,7 @@ package app.model;
 
 import app.enums.CorEnum;
 
+@SuppressWarnings("serial")
 public class CorRGB extends Cor {
     private int red;
     private int green;
@@ -25,8 +26,8 @@ public class CorRGB extends Cor {
         this("", simbolo, red, green, blue);
     }
 
-    public CorRGB() {
-        this(CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO);
+    public CorRGB(int simbolo) {
+        this(simbolo, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO);
     }
     
     private int obterValorValido(int valor) {

@@ -1,21 +1,16 @@
 package app.DAO;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import app.DAO.interfaces.ICorDAO;
 import app.model.Cor;
 import app.model.CorCMYK;
 import app.model.CorRGB;
-import app.Util.Util;
 import app.enums.CorEnum;
 import app.enums.SimboloEnum;
 

@@ -1,5 +1,6 @@
 package app.model;
 
+@SuppressWarnings("serial")
 public abstract class Cor implements java.io.Serializable {
 	protected int id;
 	protected int tipo;
