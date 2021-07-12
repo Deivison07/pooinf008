@@ -26,7 +26,7 @@ class Analise {
 		for (int icont = 0;icont<x;icont++) {
 			for (jcont = 0;jcont<y;jcont++) {
 				pixel = img.getPixel(x,y);
-				cores = obterCoresPorSimbolo(SimboloEnum.obterCoresPorSimbolo(tipo))
+				cores = obterCoresPorSimbolo(SimboloEnum.obterPorNome(tipo))
 				
 
 			}	
