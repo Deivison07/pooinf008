@@ -44,4 +44,5 @@ public enum SimboloEnum {
 		
 		throw new IllegalArgumentException("Simbolo solicitado nao encontrado.");
 	}
+	
 }
