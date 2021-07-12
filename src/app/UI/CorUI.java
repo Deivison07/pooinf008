@@ -136,11 +136,10 @@ public class CorUI extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				//Inserir mÃ©todo que farÃ¡ a lÃ³gica de buscar e analisar de acordo com o elemento
 				String simbolo = (String) comboBox.getSelectedItem();
-				SimboloEnum simboloRef;
 				SimboloEnum id = SimboloEnum.obterPorNome(simbolo);
 				//ICorDAO nLogica;
 				//nLogica.obterCoresPorSimbolo(simbolo);
-				System.out.println(id.getValor());
+				System.out.println(id.getNome());
 				
 				//this.logica.obterCoresPorSimbolo(simbolo);
 			}
@@ -167,7 +166,6 @@ public class CorUI extends JPanel implements ActionListener {
 	}
 	
 	private static void loadCombo(JComboBox<String> comboBox){
-		SimboloEnum elementos;
 		for (SimboloEnum simbolo : SimboloEnum.values()) {
 			comboBox.addItem(simbolo.getNome());
 		}
