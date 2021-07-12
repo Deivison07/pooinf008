@@ -8,15 +8,11 @@ import app.model.Cor;
 
 public interface ICorDAO {
 
-	void salvar(Cor cor) throws SQLException, IllegalArgumentException, IllegalAccessException;
+	Collection<Cor> obterTodos() throws SQLException;
 	
-	void atualizar(Cor cor) throws SQLException, IllegalArgumentException, IllegalAccessException;
+	Cor obterPorId(int id) throws SQLException, NoSuchElementException;
 	
-	Collection<Cor> obterTodos() throws SQLException, IllegalArgumentException, IllegalAccessException;
-	
-	Cor obterPorId(int id) throws IllegalArgumentException, IllegalAccessException, SQLException, NoSuchElementException;
-	
-	Collection<Cor> obterCoresPorSimbolo(int simbolo) throws SQLException, IllegalArgumentException, IllegalAccessException;
+	Collection<Cor> obterCoresPorSimbolo(int simbolo) throws SQLException;
 	
 	Collection<String> obterSimbolosDasCores() throws SQLException;
 }

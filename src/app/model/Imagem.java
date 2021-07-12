@@ -1,5 +1,6 @@
 package app.model;
 
+@SuppressWarnings("serial")
 public class Imagem implements java.io.Serializable {
 	private Cor pixels[][];
     

@@ -2,6 +2,7 @@ package app.model;
 
 import app.enums.CorEnum;
 
+@SuppressWarnings("serial")
 public class CorRGB extends Cor {
     private int red;
     private int green;
@@ -10,23 +11,23 @@ public class CorRGB extends Cor {
     public static final int VALOR_MAXIMO = 255;
     public static final int VALOR_MINIMO = 0;
     
-    public CorRGB(int id, int red, int green, int blue) {
-    	super(id, CorEnum.RGB.getValor());
+    public CorRGB(int id, String nome, int simbolo, int red, int green, int blue) {
+        super(id, CorEnum.RGB.getValor(), nome, simbolo);
         this.setRed(red);
         this.setGreen(green);
         this.setBlue(blue);
     }
     
-    public CorRGB(int red, int green, int blue) {
-        this(0, red, green, blue);
+    public CorRGB(String nome, int simbolo, int red, int green, int blue) {
+        this(0, nome, simbolo, red, green, blue);
+    }
+    
+    public CorRGB(int simbolo, int red, int green, int blue) {
+        this("", simbolo, red, green, blue);
     }
 
-    public CorRGB() {
-        this(CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO);
-    }
-
-    public CorRGB(CorRGB instancia) {
-        this(instancia.getRed(), instancia.getGreen(), instancia.getBlue());
+    public CorRGB(int simbolo) {
+        this(simbolo, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO);
     }
     
     private int obterValorValido(int valor) {

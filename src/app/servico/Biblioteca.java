@@ -1,7 +1,5 @@
 package app.servico;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,11 +17,6 @@ public class Biblioteca {
     	this.imagemDAO = new ImagemDAO();
     }
     
-    
-    public void salvarMapa(Imagem img) throws FileNotFoundException, IOException {
-    	this.imagemDAO.salvarImagemNoArquivo(img);
-    }
-    
     /**
      * Metodo para obter um array de imagens que possuem um determinada percentual de seus pixels similares com uma
      * determinada cor.
@@ -37,7 +30,7 @@ public class Biblioteca {
      * @return array de imagens que passaram na verificacao
      */
     public Imagem[] getImagemPorLuminosidade(int red, int green, int blue, double pctMinimo, double limiarSimilaridade) throws IllegalArgumentException {
-    	CorRGB corBase = new CorRGB(red, green, blue);
+    	CorRGB corBase = new CorRGB(0, red, green, blue);
     	int luminosidade = corBase.getLuminosidade();
     	
     	int lumMinima = (int) (luminosidade * (1 - limiarSimilaridade));

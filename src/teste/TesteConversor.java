@@ -15,7 +15,7 @@ class TesteConversor {
 
 	@Test
 	void testarConversaoDeCorCMYKParaRGB() {
-		CorCMYK cor = new CorCMYK(45, 73, 9, 46);
+		CorCMYK cor = new CorCMYK(0, 45, 73, 9, 46);
 		
 		Cor novaCor = (new ConversorCorCMYKEmRGB()).converter(cor);
 		
@@ -33,12 +33,12 @@ class TesteConversor {
 	}
 	
 	private int converterValorCMYKParaRGB(int valor, int preto) {
-		return 255 * (1 - valor) / 100 * (1 - preto) / 100;
+		return 255 * (1 - (valor / 100)) * (1 - (preto / 100));
 	}
 
 	@Test
 	void testarConversorDeImagem() {
-		CorCMYK cor = new CorCMYK(45, 73, 9, 46);
+		CorCMYK cor = new CorCMYK(0, 45, 73, 9, 46);
 		
 		Imagem img = new Imagem(new Cor[][] {
 			{ cor, cor, cor, cor, cor },
