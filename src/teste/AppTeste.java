@@ -18,18 +18,45 @@ public class AppTeste {
 	private static IImagemDAO imagemDAO = new ImagemDAO();
 	
 	public static void main(String[] args) throws Exception {
+		System.out.println("rodarTesteDeCor ####################################");
 		AppTeste.rodarTesteDeCor();
 
+		System.out.println("rodarTesteDeImagem ####################################");
 		AppTeste.rodarTesteDeImagem();
+
+		System.out.println("rodarTesteDeSimboloEnum ####################################");
+		AppTeste.rodarTesteDeSimboloEnum();
+	}
+	
+	private static void rodarTesteDeSimboloEnum() {
+		SimboloEnum s1 = SimboloEnum.AREA_ABERTA;
+		SimboloEnum s2 = SimboloEnum.obterPorValor(s1.getValor());
+		
+		System.out.println(String.format("obterPorValor %d == %d (%b)",
+				s1.getValor(),
+				s2.getValor(),
+				s1.getValor() == s2.getValor()));
+		
+		SimboloEnum s3 = SimboloEnum.obterPorNome(s1.getNome());
+		System.out.println(String.format("obterPorValor '%s' == '%s' (%b)",
+				s1.getNome(),
+				s3.getNome(),
+				s1.getNome() == s3.getNome()));
 	}
 	
 	// TODO
 	private static void rodarTesteDeImagem() throws Exception {
-		Imagem img1 = new Imagem(new Cor[][] {});
+		Imagem img1 = new Imagem(new Cor[][] {
+			{new CorRGB(0, 255, 0, 0), new CorRGB(0, 0, 255, 0), new CorRGB(0, 0, 0, 255)},
+			{new CorCMYK(0, 100, 0, 0, 0), new CorCMYK(0, 0, 100, 0, 0), new CorCMYK(0, 0, 0, 100, 0)},
+			{new CorCMYK(0, 100, 0, 0, 100), new CorCMYK(0, 0, 0, 0, 100), new CorCMYK(0, 0, 100, 100, 0)},
+		});
 		
-		imagemDAO.salvarImagemNoArquivo(null);
+		imagemDAO.salvarImagemNoArquivo(img1);
+		System.out.println("salvarImagemNoArquivo -- salvou");
 		
 		Imagem img2 = imagemDAO.obterImagemNoArquivo(null);
+		System.out.println(String.format("obterImagemNoArquivo -- obteve (%b)", img1.equals(img2)));
 	}
 	
 	private static void rodarTesteDeCor() throws SQLException {

@@ -1,5 +1,7 @@
 package app.model;
 
+import java.util.Collection;
+
 @SuppressWarnings("serial")
 public class Imagem implements java.io.Serializable {
 	private Cor pixels[][];
@@ -48,5 +50,65 @@ public class Imagem implements java.io.Serializable {
         }
         
         this.pixels[aPos][lPos] = pixel;
+    }
+    
+    public boolean equals(Imagem img) {
+    	for (int altura = 0; altura < this.getAltura(); altura++) {
+            for (int largura = 0; largura < this.getLargura(); largura++) {
+            	Cor pixel1 = this.getPixel(altura, largura);
+            	Cor pixel2 = img.getPixel(altura, largura);
+            	if (!pixel1.equals(pixel2))
+            		return false;
+            }
+        }
+    	
+    	return true;
+    }
+    
+    public double obterPercentualDeIgualdadePorCorRGB(Collection<Cor> cores) {
+    	double percentual = 0;
+    	
+    	for (Cor cor : cores) {
+    		percentual += this.obterPercentualDeIgualdadePorCorRGB(cor.toRGB());
+    	}
+    	
+    	return percentual;
+    }
+    
+    public double obterPercentualDeIgualdadePorCorRGB(CorRGB cor) throws IllegalArgumentException {
+    	int totalDePixels = this.getTamanho();
+    	int qtdSimilar = 0;
+    	
+    	for (int altura = 0; altura < this.getAltura(); altura++) {
+            for (int largura = 0; largura < this.getLargura(); largura++) {
+            	CorRGB pixel1 = this.getPixel(altura, largura).toRGB();
+            	
+                if (pixel1.equals(cor)) {
+                	qtdSimilar += 1;
+                }
+            }
+        }
+    	
+    	double pctSimilar = (qtdSimilar * 100) /  totalDePixels;
+    	return pctSimilar;
+    }
+    
+    public double obterPercentualDeSimilaridadePorLuminosidade(int lumMinima, int lumMaxima) throws IllegalArgumentException {
+    	int totalDePixels = this.getTamanho();
+    	int qtdSimilar = 0;
+    	
+    	for (int altura = 0; altura < this.getAltura(); altura++) {
+            for (int largura = 0; largura < this.getLargura(); largura++) {
+            	Cor pixel = this.getPixel(altura, largura);
+            	int lumDoPixel = pixel.getLuminosidade();
+            	
+                if (lumDoPixel >= lumMinima && lumDoPixel <= lumMaxima) {
+                	qtdSimilar += 1;
+                }
+            }
+        }
+    	
+    	double pctSimilar = (qtdSimilar * 100) /  totalDePixels;
+    	return pctSimilar;
     }
 }

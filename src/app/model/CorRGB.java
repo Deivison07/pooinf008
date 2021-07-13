@@ -29,6 +29,10 @@ public class CorRGB extends Cor {
     public CorRGB(int simbolo) {
         this(simbolo, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO, CorRGB.VALOR_MINIMO);
     }
+
+    public CorRGB(CorRGB cor) {
+        this(cor.getId(), cor.getNome(), cor.getSimbolo(), cor.getRed(), cor.getGreen(), cor.getBlue());
+    }
     
     private int obterValorValido(int valor) {
         return valor < CorRGB.VALOR_MINIMO ? CorRGB.VALOR_MINIMO : valor > CorRGB.VALOR_MAXIMO ? CorRGB.VALOR_MAXIMO : valor;
@@ -58,7 +62,25 @@ public class CorRGB extends Cor {
         return this.blue;
     }
 
+    @Override
     public int getLuminosidade() {
         return (int) (this.getRed() * 0.3 + this.getGreen() * 0.59 + this.getBlue() * 0.11);
     }
+
+	@Override
+	public CorRGB toRGB() {
+		return new CorRGB(this);
+	}
+
+	@Override
+	public boolean equals(Cor cor) {
+		if (!(cor instanceof CorRGB))
+			return false;
+		
+		CorRGB corRGB = (CorRGB) cor;
+		
+		return 	this.getRed() == corRGB.getRed() &&
+				this.getGreen() == corRGB.getGreen() &&
+				this.getBlue() == corRGB.getBlue();
+	}
 }
