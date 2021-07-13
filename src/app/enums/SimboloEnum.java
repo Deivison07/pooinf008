@@ -27,7 +27,7 @@ public enum SimboloEnum {
 		return this.nome;
 	}
 	
-	public static SimboloEnum obterPorNome(String nome) {
+	public static SimboloEnum obterPorNome(String nome) throws IllegalArgumentException {
 		for (SimboloEnum simbolo : SimboloEnum.values()) {
 			if (simbolo.getNome().equals(nome))
 				return simbolo;
@@ -36,7 +36,7 @@ public enum SimboloEnum {
 		throw new IllegalArgumentException("Simbolo solicitado nao encontrado.");
 	}
 	
-	public static SimboloEnum obterPorValor(int valor) {
+	public static SimboloEnum obterPorValor(int valor) throws IllegalArgumentException {
 		for (SimboloEnum simbolo : SimboloEnum.values()) {
 			if (simbolo.getValor() == valor)
 				return simbolo;

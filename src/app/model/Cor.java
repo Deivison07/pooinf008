@@ -22,7 +22,11 @@ public abstract class Cor implements java.io.Serializable {
 		this.setSimbolo(simbolo);
 	}
 	
+	public abstract CorRGB toRGB();
+	
 	public abstract int getLuminosidade();
+	
+	public abstract boolean equals(Cor cor);
 	
 	private void setId(int id) {
 		this.id = id;

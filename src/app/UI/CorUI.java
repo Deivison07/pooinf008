@@ -1,3 +1,5 @@
+package app.UI;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,31 +10,28 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-//import app.DAO.CorDAO;
-import app.DAO.interfaces.ICorDAO;
-import app.enums.SimboloEnum;
+import app.UI.DTO.ItemDeAnaliseDTO;
+import app.servico.Biblioteca;
+import app.servico.interfaces.IBiblioteca;
 
+@SuppressWarnings("serial")
 public class CorUI extends JPanel implements ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-    //private ICorDAO logica;
+    private IBiblioteca logica;
 
 	private JFrame frmAnliseDeMapa;
 	private JTextField textFieldEndereco;
+	JTextPane txtPaneElemento = new JTextPane();
 
 
 	/**
@@ -56,9 +55,8 @@ public class CorUI extends JPanel implements ActionListener {
 	 * @throws SQLException 
 	 */
 	public CorUI() throws SQLException {
-		//this.logica = new CorDAO();
+		this.logica = new Biblioteca();
         initialize();
-        
 	}
 
 	/**
@@ -82,7 +80,7 @@ public class CorUI extends JPanel implements ActionListener {
 		//###
 		frmAnliseDeMapa.getContentPane().add(lblNewLabel);
 		
-		//###Campo que exibirÃ¡ o caminho do arquivo
+		//###Campo que exibe o caminho do arquivo
 		textFieldEndereco = new JTextField();
 		textFieldEndereco.setBounds(288, 33, 387, 20);
 		textFieldEndereco.setEditable(false);
@@ -90,20 +88,19 @@ public class CorUI extends JPanel implements ActionListener {
 		frmAnliseDeMapa.getContentPane().add(textFieldEndereco);
 		textFieldEndereco.setColumns(10);
 		
-		//BotÃ£o para abertura da janela para escolha do arquivo
+		//Botao para abertura da janela para escolha do arquivo
 		JButton btnBrowser = new JButton("Browser...");
 		JFileChooser fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		
-		//LÃ³gica que serÃ¡ disparada ao clicar no botÃ£o Browser. 
-		//Abre janela do windows para seleÃ§Ã£o de arquivo e retorna endereÃ§o do arquivo para o campo de texto.
+		//evento do clique do botao 
+		//Abre janela do windows para selecao de arquivo e retorna endereco do arquivo para o campo de texto.
 		btnBrowser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e);
 				 int returnVal = fc.showOpenDialog(CorUI.this);
 				    if (returnVal == JFileChooser.APPROVE_OPTION) {
 				        File file = fc.getSelectedFile();
-						//A variÃ¡vel textFieldEndereco agora contem o endereÃ§o do arquivo. Usar ela.
 						textFieldEndereco.setText(file.getPath());
 				} else {
 					System.out.println("Erro na abertura");
@@ -114,7 +111,7 @@ public class CorUI extends JPanel implements ActionListener {
 		//###
 		frmAnliseDeMapa.getContentPane().add(btnBrowser);
 		
-		//###Label para exibiÃ§Ã£o dos elementos no BD
+		//###Label para exibicao dos elementos no BD
 		JLabel lblNewLabel_1 = new JLabel("Selecione o tipo de elemento:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -129,45 +126,47 @@ public class CorUI extends JPanel implements ActionListener {
 		//###
 		frmAnliseDeMapa.getContentPane().add(comboBox);
 		
-		//###BotÃ£o para anÃ¡lisar o arquivo conforme o elemento escolhido
+		//###Botao para analisar o arquivo conforme o elemento escolhido
 		JButton btnAnalisar = new JButton("Analisar");
 		
 		btnAnalisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Inserir mÃ©todo que farÃ¡ a lÃ³gica de buscar e analisar de acordo com o elemento
 				String simbolo = (String) comboBox.getSelectedItem();
-				SimboloEnum id = SimboloEnum.obterPorNome(simbolo);
-				//ICorDAO nLogica;
-				//nLogica.obterCoresPorSimbolo(simbolo);
-				System.out.println(id.getNome());
-				
-				//this.logica.obterCoresPorSimbolo(simbolo);
+				try {
+					Collection<ItemDeAnaliseDTO> dados = logica
+							.analisarImagem(textFieldEndereco.getText(), simbolo);
+					
+					//Inserir a String de Elemento por porcentagem
+					txtPaneElemento.setText("");
+				} catch (ClassNotFoundException | SQLException | IOException e1) {
+					System.out.println("Erro na analise: " + e1.getMessage());
+				}
 			}
 		});
 		
 		btnAnalisar.setBounds(685, 119, 89, 23);
 		frmAnliseDeMapa.getContentPane().add(btnAnalisar);
 		
-		//String de teste
-		String dados = ("Seus dados aparecerão aqui...");
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 153, 764, 202);
 		frmAnliseDeMapa.getContentPane().add(scrollPane);
 		
-		//Ã�rea para exibiÃ§Ã£o dos resultados
 		//Pane para exibir os elementos
-		JTextPane txtPaneElemento = new JTextPane();
 		scrollPane.setViewportView(txtPaneElemento);
 		txtPaneElemento.setEditable(false);
-
-		//Inserir a String de Elemento por porcentagem. Ex: ("Ã�gua: " + "12%" + "\n")
-		txtPaneElemento.setText(dados);
 	}
 	
-	private static void loadCombo(JComboBox<String> comboBox){
-		for (SimboloEnum simbolo : SimboloEnum.values()) {
-			comboBox.addItem(simbolo.getNome());
+	private void loadCombo(JComboBox<String> comboBox){
+		try {
+			Collection<String> simbolos = this.logica.obterSimbolosDasCores();
+			for (String simbolo : simbolos) {
+				comboBox.addItem(simbolo);
+			}
+		} catch (SQLException e) {
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 	}
 }

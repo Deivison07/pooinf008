@@ -1,5 +1,6 @@
 package app.model;
 
+import app.conversor.ConversorCorCMYKEmRGB;
 import app.enums.CorEnum;
 
 @SuppressWarnings("serial")
@@ -68,7 +69,27 @@ public class CorCMYK extends Cor {
     	return this.preto;
     }
     
+    @Override
 	public int getLuminosidade() {
 		return (int) ((this.getPreto() * 255) / 100);
+	}
+
+	@Override
+	public CorRGB toRGB() {
+		ConversorCorCMYKEmRGB conversor = new ConversorCorCMYKEmRGB();
+		return (CorRGB) conversor.converter(this);
+	}
+
+	@Override
+	public boolean equals(Cor cor) {
+		if (!(cor instanceof CorCMYK))
+			return false;
+		
+		CorCMYK corCMYK = (CorCMYK) cor;
+		
+		return 	this.getCiano() == corCMYK.getCiano() &&
+				this.getMagenta() == corCMYK.getMagenta() &&
+				this.getAmarelo() == corCMYK.getAmarelo() &&
+				this.getPreto() == corCMYK.getPreto();
 	}
 }

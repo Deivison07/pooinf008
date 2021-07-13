@@ -15,25 +15,40 @@ class TesteConversor {
 
 	@Test
 	void testarConversaoDeCorCMYKParaRGB() {
-		CorCMYK cor = new CorCMYK(0, 45, 73, 9, 46);
+		CorCMYK corCMYK;
+		CorRGB corRGB;
 		
-		Cor novaCor = (new ConversorCorCMYKEmRGB()).converter(cor);
+		// vermelho
+		corCMYK = new CorCMYK(0, 0, 100, 100, 0);
+		corRGB = (CorRGB) (new ConversorCorCMYKEmRGB()).converter(corCMYK);
 		
-		assertTrue(novaCor instanceof CorRGB);
+		assertTrue(corRGB.getRed() == 255);
+		assertTrue(corRGB.getGreen() == 0);
+		assertTrue(corRGB.getBlue() == 0);
 		
-		CorRGB novaCorRGB = (CorRGB) novaCor;
+		// verde
+		corCMYK = new CorCMYK(0, 100, 0, 100, 0);
+		corRGB = (CorRGB) (new ConversorCorCMYKEmRGB()).converter(corCMYK);
 		
-		int red = converterValorCMYKParaRGB(cor.getCiano(), cor.getPreto());
-        int green = converterValorCMYKParaRGB(cor.getMagenta(), cor.getPreto());
-        int blue = 	converterValorCMYKParaRGB(cor.getAmarelo(), cor.getPreto());
+		assertTrue(corRGB.getRed() == 0);
+		assertTrue(corRGB.getGreen() == 255);
+		assertTrue(corRGB.getBlue() == 0);
 		
-		assertTrue(novaCorRGB.getRed() == red);
-		assertTrue(novaCorRGB.getGreen() == green);
-		assertTrue(novaCorRGB.getBlue() == blue);
-	}
-	
-	private int converterValorCMYKParaRGB(int valor, int preto) {
-		return 255 * (1 - (valor / 100)) * (1 - (preto / 100));
+		// azul
+		corCMYK = new CorCMYK(0, 100, 100, 0, 0);
+		corRGB = (CorRGB) (new ConversorCorCMYKEmRGB()).converter(corCMYK);
+		
+		assertTrue(corRGB.getRed() == 0);
+		assertTrue(corRGB.getGreen() == 0);
+		assertTrue(corRGB.getBlue() == 255);
+		
+		// uma aleatoria
+		corCMYK = new CorCMYK(0, 58, 0, 32, 24);
+		corRGB = (CorRGB) (new ConversorCorCMYKEmRGB()).converter(corCMYK);
+		
+		assertTrue(corRGB.getRed() == 81);
+		assertTrue(corRGB.getGreen() == 194);
+		assertTrue(corRGB.getBlue() == 132);
 	}
 
 	@Test

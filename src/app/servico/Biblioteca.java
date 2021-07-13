@@ -1,20 +1,56 @@
 package app.servico;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import app.DAO.CorDAO;
 import app.DAO.ImagemDAO;
+import app.DAO.interfaces.ICorDAO;
 import app.DAO.interfaces.IImagemDAO;
+import app.UI.DTO.ItemDeAnaliseDTO;
+import app.enums.SimboloEnum;
 import app.model.Cor;
 import app.model.CorRGB;
 import app.model.Imagem;
+import app.servico.interfaces.IBiblioteca;
 
-public class Biblioteca {
+public class Biblioteca implements IBiblioteca {
     
     private final IImagemDAO imagemDAO;
+    private final ICorDAO corDAO;
 
     public Biblioteca() {
     	this.imagemDAO = new ImagemDAO();
+    	this.corDAO = new CorDAO();
+    }
+    
+    public Collection<String> obterSimbolosDasCores() throws SQLException {
+    	return this.corDAO.obterSimbolosDasCores();
+    }
+   
+    public Collection<ItemDeAnaliseDTO> analisarImagem(String caminho, String simbolo) throws SQLException, ClassNotFoundException, IOException {
+    	Collection<ItemDeAnaliseDTO> analise = new ArrayList<ItemDeAnaliseDTO>();
+    	
+    	int idSimbolo = SimboloEnum.obterPorNome(simbolo).getValor();
+    	Collection<Cor> cores = this.corDAO.obterCoresPorSimbolo(idSimbolo);
+    	
+    	Imagem imagem = imagemDAO.obterImagemNoArquivo(caminho);
+    	
+    	double percentualDoSimbolo = imagem.obterPercentualDeIgualdadePorCorRGB(cores);
+    	
+    	ItemDeAnaliseDTO itemTotal = new ItemDeAnaliseDTO("Total do Simbolo", percentualDoSimbolo);
+    	analise.add(itemTotal);
+    	
+    	for (Cor cor : cores) {
+    		double percentualDaCor = imagem.obterPercentualDeIgualdadePorCorRGB(cor.toRGB());
+    		
+    		ItemDeAnaliseDTO item = new ItemDeAnaliseDTO(cor.getNome(), percentualDaCor);
+        	analise.add(item);
+    	}
+    	
+    	return analise;
     }
     
     /**
@@ -40,31 +76,12 @@ public class Biblioteca {
     	Collection<Imagem> mapasSimilares = new ArrayList<Imagem>();
     	
     	for (Imagem mapa : mapas) {
-    		double pctSimilar = this.obterSimilaridadeDoMapa(mapa, lumMinima, lumMaxima);
+    		double pctSimilar = mapa.obterPercentualDeSimilaridadePorLuminosidade(lumMinima, lumMaxima);
     		
 			if (pctSimilar >= pctMinimo)
 				mapasSimilares.add(mapa);
     	}
     	
         return mapasSimilares.toArray(new Imagem[mapasSimilares.size()]);                                  
-    }
-    
-    private double obterSimilaridadeDoMapa(Imagem mapa, int lumMinima, int lumMaxima) throws IllegalArgumentException {
-    	int totalDePixels = mapa.getTamanho();
-    	int qtdSimilar = 0;
-    	
-    	for (int altura = 0; altura < mapa.getAltura(); altura++){
-            for (int largura = 0; largura < mapa.getLargura(); largura++){
-            	Cor pixel = mapa.getPixel(altura, largura);
-            	int lumDoPixel = pixel.getLuminosidade();
-            	
-                if (lumDoPixel >= lumMinima && lumDoPixel <= lumMaxima){
-                	qtdSimilar += 1;
-                }
-            }
-        }
-    	
-    	double pctSimilar = (qtdSimilar * 100) /  totalDePixels;
-    	return pctSimilar;
     }
 }

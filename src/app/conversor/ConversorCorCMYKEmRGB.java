@@ -23,6 +23,6 @@ public class ConversorCorCMYKEmRGB implements IConversorCor {
     }
     
     private int converterValorCMYKParaRGB(int valor, int preto) {
-    	return 255 * (1 - (valor / 100)) * (1 - (preto / 100));
+    	return Math.round(255 * (1 - ((float) valor / 100)) * (1 - ((float) preto / 100)));
 	}
 }
