@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import app.UI.DTO.ItemDeAnaliseDTO;
 import app.servico.Biblioteca;
 import app.servico.interfaces.IBiblioteca;
 
@@ -132,10 +133,11 @@ public class CorUI extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String simbolo = (String) comboBox.getSelectedItem();
 				try {
-					String dados = logica.analisarImagem(textFieldEndereco.getText(), simbolo);
+					Collection<ItemDeAnaliseDTO> dados = logica
+							.analisarImagem(textFieldEndereco.getText(), simbolo);
 					
 					//Inserir a String de Elemento por porcentagem
-					txtPaneElemento.setText(dados);
+					txtPaneElemento.setText("");
 				} catch (ClassNotFoundException | SQLException | IOException e1) {
 					System.out.println("Erro na analise: " + e1.getMessage());
 				}

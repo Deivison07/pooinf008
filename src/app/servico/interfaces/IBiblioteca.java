@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import app.UI.DTO.ItemDeAnaliseDTO;
+
 public interface IBiblioteca {
 	Collection<String> obterSimbolosDasCores() throws SQLException;
 	
-	String analisarImagem(String caminho, String simbolo) throws SQLException, ClassNotFoundException, IOException;
+	Collection<ItemDeAnaliseDTO> analisarImagem(String caminho, String simbolo) throws SQLException, ClassNotFoundException, IOException;
 }

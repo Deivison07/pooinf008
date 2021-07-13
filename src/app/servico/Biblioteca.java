@@ -9,6 +9,7 @@ import app.DAO.CorDAO;
 import app.DAO.ImagemDAO;
 import app.DAO.interfaces.ICorDAO;
 import app.DAO.interfaces.IImagemDAO;
+import app.UI.DTO.ItemDeAnaliseDTO;
 import app.enums.SimboloEnum;
 import app.model.Cor;
 import app.model.CorRGB;
@@ -29,8 +30,8 @@ public class Biblioteca implements IBiblioteca {
     	return this.corDAO.obterSimbolosDasCores();
     }
    
-    public String analisarImagem(String caminho, String simbolo) throws SQLException, ClassNotFoundException, IOException {
-    	String rep = "";
+    public Collection<ItemDeAnaliseDTO> analisarImagem(String caminho, String simbolo) throws SQLException, ClassNotFoundException, IOException {
+    	Collection<ItemDeAnaliseDTO> analise = new ArrayList<ItemDeAnaliseDTO>();
     	
     	int idSimbolo = SimboloEnum.obterPorNome(simbolo).getValor();
     	Collection<Cor> cores = this.corDAO.obterCoresPorSimbolo(idSimbolo);
@@ -39,15 +40,17 @@ public class Biblioteca implements IBiblioteca {
     	
     	double percentualDoSimbolo = imagem.obterPercentualDeIgualdadePorCorRGB(cores);
     	
-    	rep += String.format("Total do Simbolo \t %f", percentualDoSimbolo);
+    	ItemDeAnaliseDTO itemTotal = new ItemDeAnaliseDTO("Total do Simbolo", percentualDoSimbolo);
+    	analise.add(itemTotal);
     	
     	for (Cor cor : cores) {
     		double percentualDaCor = imagem.obterPercentualDeIgualdadePorCorRGB(cor.toRGB());
     		
-    		rep += String.format("\n%s \t %f", cor.getNome(), percentualDaCor);
+    		ItemDeAnaliseDTO item = new ItemDeAnaliseDTO(cor.getNome(), percentualDaCor);
+        	analise.add(item);
     	}
     	
-    	return rep;
+    	return analise;
     }
     
     /**
