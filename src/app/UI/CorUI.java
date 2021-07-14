@@ -137,7 +137,7 @@ public class CorUI extends JPanel implements ActionListener {
 							.analisarImagem(textFieldEndereco.getText(), simbolo);
 					
 					//Inserir a String de Elemento por porcentagem
-					txtPaneElemento.setText("");
+					loadAnalisePane(txtPaneElemento, dados);
 				} catch (ClassNotFoundException | SQLException | IOException e1) {
 					System.out.println("Erro na analise: " + e1.getMessage());
 				}
@@ -163,6 +163,14 @@ public class CorUI extends JPanel implements ActionListener {
 				comboBox.addItem(simbolo);
 			}
 		} catch (SQLException e) {
+		}
+	}
+
+	private void loadAnalisePane(JTextPane txtPaneElemento, Collection<ItemDeAnaliseDTO> dados){
+		String text = "";
+		for ( ItemDeAnaliseDTO elemento : dados){
+			text = elemento.getDescricao + ": " + Double.toString(elemento.getPercentual)+ " . \n";
+			txtPaneElemento.set(text);
 		}
 	}
 
